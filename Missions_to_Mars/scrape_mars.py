@@ -17,10 +17,11 @@ def scrape():
     html = browser.html
     soup = BeautifulSoup(html, 'html.parser')
 
-    articles = soup.find_all("div", class_='list_text')
-    for article in articles:
-        news_title = article.find('div', class_='content_title')
-        paragraph = article.find('div', class_='article_teaser_body')
+    html = browser.html
+    soup = BeautifulSoup(html, 'html.parser')
+
+    news_title = soup.find('div', class_='content_title').text
+    paragraph = soup.find('div', class_='article_teaser_body').text
 
     
 
@@ -77,8 +78,8 @@ def scrape():
         browser.back()
 
     data = {
-        "news_title": news_title,
-        "paragraph text": paragraph,
+        "news_title": "hello",
+        "paragraph text": "paragraph here",
         "featured_image_url": featured_image_url,
         "mars_table_html": mars_table_html,
         "hemisphere_image_urls": hemisphere_image_urls
