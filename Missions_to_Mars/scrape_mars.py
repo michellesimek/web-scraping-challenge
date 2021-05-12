@@ -11,17 +11,41 @@ def init_browser():
 def scrape():
     browser = init_browser()
 
-    url = "https://mars.nasa.gov/news/?page=0&per_page=40&order=publish_date+desc%2Ccreated_at+desc&search=&category=19%2C165%2C184%2C204&blank_scope=Latest"
+    mars_data = {
+        "news_title": news_title(browser),
+        "paragraph_text": paragraph_text(browser),
+        "featured_image_url": featured_image(browser),
+        "mars_table_html": mars_table(browser),
+        "hemisphere_image_urls": hemispheres_image_urls(browser)
+    }
+
+    return mars_data
+
+def news_title(browser):
+    url = "https://redplanetscience.com"
     browser.visit(url)
 
     html = browser.html
     soup = BeautifulSoup(html, 'html.parser')
+    article = soup.select_one('.list_text')
 
-    news_title = soup.find('div', class_='list_text').find('a').text
-    paragraph = soup.find('div', class_='article_teaser_body').text
+    news_title = article.find('div', class_='content_title').text
 
+    return news_title
+
+def paragraph_text(browser):
+    url = "https://redplanetscience.com"
+    browser.visit(url)
+
+    html = browser.html
+    soup = BeautifulSoup(html, 'html.parser')
+    article = soup.select_one('.list_text')
+
+    paragraph_text = article.find('div', class_='article_teaser_body').text()
+
+    return paragraph_text
     
-
+def featured_image(browser):
     url = "https://spaceimages-mars.com/"
     browser.visit(url)
     html = browser.html
@@ -31,9 +55,10 @@ def scrape():
 
     featured_image_url = featured_image.find('a', class_='showimg fancybox-thumbs')['href']
     featured_image_url = url + featured_image_url
-    featured_image_url
+    
+    return(featured_image_url)
 
-
+def mars_table(browser):
     url = 'https://space-facts.com/mars/'
     browser.visit(url)
 
@@ -45,8 +70,10 @@ def scrape():
     mars_table_html = mars_table_html.replace('\n', '')
     mars_table.to_html('table.html')
 
+    return mars_table_html
 
 
+def hemispheres_image_urls(browser):
     url = "https://marshemispheres.com/"
     browser.visit(url)
 
@@ -72,18 +99,9 @@ def scrape():
         hemisphere = {"title": {title}, "img_url": {image_urls}}
     #     add dictionary hemisphere_image_urls list
         hemisphere_image_urls.append(hemisphere)
-        browser.back()
 
-    data = {
-        "news_title": news_title,
-        "paragraph_text": paragraph,
-        "featured_image_url": featured_image_url,
-        "mars_table_html": mars_table_html,
-        "hemisphere_image_urls": hemisphere_image_urls
-    }
+    return hemisphere_image_urls
 
-    browser.quit()
-
-    return data
+  
 
 
