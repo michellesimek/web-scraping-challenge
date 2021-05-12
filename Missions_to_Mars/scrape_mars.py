@@ -8,18 +8,7 @@ def init_browser():
     return Browser('chrome', **executable_path, headless=False)   
 
 
-def scrape():
-    browser = init_browser()
 
-    mars_data = {
-        "news_title": news_title(browser),
-        "paragraph_text": paragraph_text(browser),
-        "featured_image_url": featured_image(browser),
-        "mars_table_html": mars_table(browser),
-        "hemisphere_image_urls": hemispheres_image_urls(browser)
-    }
-
-    return mars_data
 
 def news_title(browser):
     url = "https://redplanetscience.com"
@@ -39,7 +28,8 @@ def paragraph_text(browser):
     html = browser.html
     soup = BeautifulSoup(html, 'html.parser')
 
-     paragraph_text = getattr(soup.find('div', class_='article_teaser_body'), 'text', None)
+    paragraph_text = getattr(soup.find('div', class_='article_teaser_body'), 'text', None)
+    
 
     return paragraph_text
     
@@ -94,11 +84,22 @@ def hemispheres_image_urls(browser):
         images = soup.find('img', class_='wide-image')['src']
     #     add website to image_url
         hemi_dict['image_urls'] = 'https://marshemispheres.com/'+ images
-    #     add dictionary hemisphere_image_urls list
+    #     create dictionary with img_urls and titles
         hemisphere_image_urls.append(hemi_dict)
+
 
     return hemisphere_image_urls
 
   
+def scrape():
+    browser = init_browser()
 
+    mars_data = {
+        "news_title": news_title(browser),
+        "paragraph_text": paragraph_text(browser),
+        "featured_image_url": featured_image(browser),
+        "mars_table_html": mars_table(browser),
+        "hemisphere_image_urls": hemispheres_image_urls(browser)
+    }
 
+    return mars_data
