@@ -79,10 +79,11 @@ def hemispheres_image_urls(browser):
     soup = BeautifulSoup(html, 'html.parser')
     hemispheres = soup.find_all('div', class_='item')
     hemisphere_image_urls = []
+    hemi_dict = {}
 
     for hemisphere in hemispheres:
     #     get a list of the Hemisphere titles
-        title = hemisphere.find('h3').text
+        hemi_dict['title'] = hemisphere.find('h3').text
     #     find the link to go to the hemisphere page
         hemisphere_link= hemisphere.find('a')['href']
     #     click to go to hemisphere page
@@ -92,11 +93,9 @@ def hemispheres_image_urls(browser):
     #     find img url for full resolution image
         images = soup.find('img', class_='wide-image')['src']
     #     add website to image_url
-        image_urls = 'https://marshemispheres.com/'+ images
-    #     create dictionary with img_urls and titles
-        hemisphere = {"title": {title}, "img_url": {image_urls}}
+        hemi_dict['image_urls'] = 'https://marshemispheres.com/'+ images
     #     add dictionary hemisphere_image_urls list
-        hemisphere_image_urls.append(hemisphere)
+        hemisphere_image_urls.append(hemi_dict)
 
     return hemisphere_image_urls
 
