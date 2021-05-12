@@ -17,4 +17,4 @@ Using Jupyter Notebook, BeautifulSoup, Pandas, and Requests/Splinter, complete t
 
 
 ## MongoDB and Flask Application 
-Create a new HTML page to display all of the informatino scraped above. 
+Create a new HTML page to display all of the information scraped above. 
