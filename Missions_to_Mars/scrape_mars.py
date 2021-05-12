@@ -27,9 +27,8 @@ def news_title(browser):
 
     html = browser.html
     soup = BeautifulSoup(html, 'html.parser')
-    article = soup.select_one('.list_text')
 
-    news_title = article.find('div', class_='content_title').text
+    news_title = getattr(soup.find('div', class_='content_title'), 'text', None)
 
     return news_title
 
@@ -39,9 +38,8 @@ def paragraph_text(browser):
 
     html = browser.html
     soup = BeautifulSoup(html, 'html.parser')
-    article = soup.select_one('.list_text')
 
-    paragraph_text = article.find('div', class_='article_teaser_body').text()
+     paragraph_text = getattr(soup.find('div', class_='article_teaser_body'), 'text', None)
 
     return paragraph_text
     
